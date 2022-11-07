@@ -20,9 +20,9 @@ DEFINE_PRINT_STRING
 ;CALL PROCURAVERTICAL   
 ;CALL PROCURAVERTICALMANGA
  
-;CALL PROCURADIAGONAL
+CALL PROCURADIAGONAL
 ;CALL PROCURARDIAGONALMANGA
-CALL IMPRIMEDB
+;CALL IMPRIMEDB
 
 
 jmp $
@@ -95,9 +95,11 @@ mov SI,offset MIGUEL
 call PRINT_STRING  
 mov SI, offset mens9 
 call PRINT_STRING
-mov SI, offset cacapalavra
-inc SI
-call PRINT_STRING
+CALL PULA_LINHA
+CALL IMPRIMEDB
+
+
+
 
 POPF
 POP SI
@@ -330,7 +332,7 @@ mov ch,[di]
 mov cl,[si]
 PALAVRADIAGONAL:
 cmp ch,cl
-je DIAGONALIGUAL3
+je DIAGONALIGUAL1
 cmp ch,0
 je IMPRIMIRNAOENCONTRA
 MOV SI,OFFSET MIGUEL
@@ -408,6 +410,8 @@ PUSH DX
 PUSH DI
 PUSH SI
 PUSHF
+MOV SI,OFFSET MIGUEL
+mov cl,[si]
 MOV DI,OFFSET INICIO_A
 IMPRIMEDB1:
 INC DI
@@ -415,6 +419,8 @@ IMPRIMEDB3:
 mov ch,[di]
 cmp ch,'!'
 je IMPRIMEDB2
+cmp ch,cl
+
 mov ah,2
 mov dl,ch
 int 21h
@@ -443,7 +449,7 @@ ret
 
 
 
-FINDSUBSTRING
+;FINDSUBSTRING
 
 
 
@@ -457,7 +463,7 @@ mens9 db " se encontra na string ",0
 
 mens19 db " nao se encontra na string ", 0
         
-CACAPALAVRA DB 0, "miguelxxxleugim",0
+CACAPALAVRA DB 0, "miguelxxxleugim#",0
 ;CACAPALAVRA DB 0, tamanho1 DUP(" "),0                          
 
 mens129 db " se encontra na string ",0 
@@ -477,19 +483,15 @@ INICIO_A:
 DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"
 DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"
 DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"    
-DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"
-DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"       ;kxl  
-DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"
-DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"  ;aqui
-DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!"
-DB "!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!#",0
+DB "!xxxxxxxxxxxxMxxxxxxxxxxxxxxxxxxxxxxxxxxx!"
+DB "!xxxxxxxxxxxxxIxxxxxxxxxxxxxxxxxxxxxxxxxx!"       ;kxl  
+DB "!xxxxxxxxxxxxxxGxxxxxxxxxxxxxxxxxxxxxxxxx!"
+DB "!xxxxxxxxxxxxxxxUxxxxxxxxxxxxxxxxxxxxxxxx!"  ;aqui
+DB "!xxxxxxxxxxxxxxxxExxxxxxxxxxxxxxxxxxxxxxx!"
+DB "!xxxxxxxxxxxxxxxxxLxxxxxxxxxxxxxxxxxxxxxx!#",0
 
 
-;select  nome_empregado,salario_empregado,data_contratacao_empregado
-from empregado
-where year(data_contratacao_empregado) = '2022' 
-or year(data_contratacao_empregado) = '2020' 
-or year(data_contratacao_empregado) ='2000';
+
 
 INICIO_B DB "!MSMDFLKASJDKFLJSADKLFJAKLSJDFKLASJXXXXXX!"
 DB "*****************************************#",0
