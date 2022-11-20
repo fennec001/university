@@ -1,0 +1,476 @@
+                                                           ;exercicio da prova 3 de arquitetura de computadores
+ ;com o objetivo de efetuar 4 subrotinas
+ ;  procurar palavra em uma string
+ ;  procurar palavra ao contrario em uma string
+ ;  procurar uma palavra na vertical em uma string
+ ;  procurar uma palavra na vertical, ao contrario
+ 
+                                                                                                                                   include "emu8086.inc"
+tamanho equ 9 ; incluir null
+org 100h  
+
+DEFINE_GET_STRING 
+DEFINE_PRINT_STRING     
+
+
+.DATA 
+
+mens1 db "A substring não se encontra no caca-palavras",0
+        
+;MIGUEL DB tamanho DUP(" "),0
+
+ARRAY DW 0,0,0,0,0,0
+
+VARIAVEL1 DW 0
+VARIAVEL2 DW 0
+VARIAVEL3 DW 0 
+VARIAVEL4 DW 0
+VARIAVEL5 DW 0
+VARIAVEL6 DW 0
+
+PALAVRA DB "MIGUEL",0
+
+PLACEHOLDERC DW 0
+
+PLACEHOLDERA DW 0
+
+PLACEHOLDERSI DW 0
+
+PLACEHOLDERDI DW 0
+
+POINTERC DW  0 ; aponta para o endereço de memoria do INICIO_C
+
+PRINTPLACEHOLDER DW 6;
+
+PALAVRA1 DB TAMANHO DUP(" "),0
+
+
+;use qualquer marcador
+;fixo 10x40
+DB 0,"#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$!"
+INICIO_A:
+DB "!xMMIGUELxxxxxxxMIGUExxxxxxxxxxMxxxxxxxxx!"
+DB "!xxIIxxxxxLxxxxxxIxxxxxLxxxxxxIxxxxxxxxxx!"
+DB "!xxGxGxxxxxExxxxxxGxxxExxxxxxGxxxxxxxxxxx!"    
+DB "!xxUxxUxxxxxUxxxxxxxxUxxxxxxUxxxxxxxxxxxx!"
+DB "!xxExxxExxxxxGxxxxxxGxxxxxxExxxxxxxxxxxxx!"       ;kxl  
+DB "!xxLxxxxLxxxxxIxxxxIxxxxxxLxxxxxxxxxxxxxx!"
+DB "!xxxxxxxxxxxxxxMxxMxxxxxxxxxxxxxxxxxxxxxx!"  ;aqui
+DB "!xxxxxxxxxxxxxxxxxIxxxxxxxxxxxxxxxxxxxxxx!"
+DB "!xxxxxxxxxxxxxxxxMxxxxxxxxxxxxxxxxxxxxxxx!#",0
+
+
+DB 0,"#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$!"
+INICIO_C:
+DB "!----------------------------------------!"
+DB "!----------------------------------------!"
+DB "!----------------------------------------!"    
+DB "!----------------------------------------!"
+DB "!----------------------------------------!"       ;k-l  
+DB "!----------------------------------------!"
+DB "!----------------------------------------!"  ;aqui
+DB "!----------------------------------------!"
+DB "!----------------------------------------!#",0
+
+.CODE 
+mov ax,123h
+mov bx,123h
+mov cx,123h
+CALL CACAPALAVRA
+JMP $
+
+
+CACAPALAVRA:
+; puxando todos os registradores e as flags para a pilha, para garantir a integridade de dados
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+PUSH DI
+PUSH SI
+PUSHF
+
+MOV SI,OFFSET PALAVRA
+MOV DI,OFFSET INICIO_A  ;movendo o endereço de memória destas variaveis para os registradores
+
+PUSH DI
+MOV DI,OFFSET INICIO_C
+MOV POINTERC,DI
+POP DI 
+
+PROXIMALETRA:
+INC POINTERC ;incrementando para apontar a primeira letra do caça-palavra 
+INC DI 
+mov ch,[di] 
+mov cl,[si]
+
+CMP ch,cl
+JE PRIMEIRALETRA
+CMP CH,0
+JE FIM
+JMP PROXIMALETRA
+
+
+
+
+
+PRIMEIRALETRA:
+CALL GUARDARVALOR
+;asd
+CALL PALAVRAVERTICAL
+CALL DEVOLVERVALOR
+CALL palavrahorizontal
+CALL DEVOLVERVALOR
+CALL PALAVRADIAGONAL1
+CALL DEVOLVERVALOR
+CALL PALAVRADIAGONAL2
+CALL DEVOLVERVALOR
+CALL PALAVRADIAGONAL3
+CALL DEVOLVERVALOR
+CALL PALAVRADIAGONAL4
+CALL DEVOLVERVALOR
+CALL PALAVRAVERTICALMANGA
+CALL DEVOLVERVALOR
+JMP PROXIMALETRA 
+
+
+
+
+
+
+PALAVRAVERTICAL1:
+INC POINTERC
+INC SI
+INC DI
+MOV CH,[DI]
+MOV CL,[SI]
+CMP CL,CH
+JE PALAVRAVERTICAL 
+RET
+
+
+PALAVRAVERTICAL:
+CALL ESCREVERC
+JMP PALAVRAVERTICAL1
+
+
+PALAVRAHORIZONTAL1:
+
+INC SI
+ADD DI,42
+ADD POINTERC,42
+MOV CH,[DI]
+MOV CL,[SI]
+CMP CH,CL
+JE palavrahorizontal
+RET
+
+
+palavrahorizontal:
+CALL ESCREVERC
+JMP PALAVRAHORIZONTAL1
+
+
+
+PALAVRADIAGONAL11:
+
+INC SI
+ADD DI,43
+ADD POINTERC,43
+MOV CH,[DI]
+MOV CL,[SI]
+CMP CH,CL
+JE PALAVRADIAGONAL1
+RET
+
+
+PALAVRADIAGONAL1:
+CALL ESCREVERC
+JMP PALAVRADIAGONAL11
+
+
+
+PALAVRADIAGONAL22:
+
+INC SI
+ADD DI,41
+ADD POINTERC,41
+MOV CH,[DI]
+MOV CL,[SI]
+CMP CH,CL
+JE PALAVRADIAGONAL2
+RET
+
+
+PALAVRADIAGONAL2:
+CALL ESCREVERC
+JMP PALAVRADIAGONAL22
+
+PALAVRADIAGONAL33:
+
+INC SI
+SUB DI,41
+SUB POINTERC,41
+MOV CH,[DI]
+MOV CL,[SI]
+CMP CH,CL
+JE PALAVRADIAGONAL3
+RET
+
+
+PALAVRADIAGONAL3:
+CALL ESCREVERC
+JMP PALAVRADIAGONAL33
+
+PALAVRADIAGONAL44:
+
+INC SI
+SUB DI,43
+SUB POINTERC,43
+MOV CH,[DI]
+MOV CL,[SI]
+CMP CH,CL
+JE PALAVRADIAGONAL4
+RET
+
+
+PALAVRADIAGONAL4:
+CALL ESCREVERC
+JMP PALAVRADIAGONAL44
+
+
+PALAVRAVERTICALMANGA1:
+INC DI
+DEC SI
+MOV CH,[DI]
+MOV CL,[SI]
+CMP CH,CL
+JE SIPERCORRIDO
+RET
+
+PALAVRAVERTICALMANGA:
+JMP PERCORRERSI
+SIPERCORRIDO:
+CALL ESCREVERC
+JMP PALAVRAVERTICALMANGA1
+
+
+PERCORRERSI:
+INC SI
+MOV CH,[SI]
+CMP CH,0
+
+JNE PERCORRERSI
+JMP SIPERCORRIDO
+
+ESCREVERC:
+DEC PRINTPLACEHOLDER
+CMP PRINTPLACEHOLDER,5
+JE LETRA1
+CMP PRINTPLACEHOLDER,4
+JE LETRA2
+CMP PRINTPLACEHOLDER,3
+JE LETRA3
+CMP PRINTPLACEHOLDER,2
+JE LETRA4
+CMP PRINTPLACEHOLDER,1
+JE LETRA5
+CMP PRINTPLACEHOLDER,0
+JMP LETRA6
+
+
+
+
+
+LETRA1:
+PUSH DI
+MOV DI, POINTERC
+MOV VARIAVEL1,DI
+POP DI
+RET
+
+LETRA2:
+PUSH DI
+MOV DI, POINTERC
+MOV VARIAVEL2,DI
+POP DI
+RET
+
+LETRA3:
+PUSH DI
+MOV DI, POINTERC
+MOV VARIAVEL3,DI
+POP DI
+RET
+
+LETRA4:
+PUSH DI
+MOV DI, POINTERC
+MOV VARIAVEL4,DI
+POP DI
+RET
+
+LETRA5:
+PUSH DI
+MOV DI, POINTERC
+MOV VARIAVEL5,DI
+POP DI
+RET
+
+LETRA6:
+PUSH DI
+MOV DI, POINTERC
+MOV VARIAVEL6,DI
+POP DI
+JMP INSERIRPALAVRA
+
+
+INSERIRPALAVRA:
+MOV SI,OFFSET PALAVRA
+MOV CH,[SI]
+
+PUSH DI
+MOV DI, VARIAVEL1
+MOV [DI],CH
+POP DI
+
+INC SI
+MOV CH,[SI]
+
+PUSH DI
+MOV DI, VARIAVEL2
+MOV [DI],CH
+POP DI
+
+
+INC SI
+MOV CH,[SI]
+
+PUSH DI
+MOV DI, VARIAVEL3
+MOV [DI],CH
+POP DI
+
+
+INC SI
+MOV CH,[SI]
+
+PUSH DI
+MOV DI, VARIAVEL4
+MOV [DI],CH
+POP DI
+
+
+INC SI
+MOV CH,[SI]
+
+PUSH DI
+MOV DI, VARIAVEL5
+MOV [DI],CH
+POP DI
+
+
+INC SI
+MOV CH,[SI]
+
+PUSH DI
+MOV DI, VARIAVEL6
+MOV [DI],CH
+POP DI
+RET
+
+
+
+GUARDARVALOR:
+MOV PLACEHOLDERSI,SI
+MOV PLACEHOLDERDI,DI
+MOV PRINTPLACEHOLDER,6
+PUSH DI
+MOV DI,POINTERC
+MOV PLACEHOLDERC,DI
+POP DI
+RET
+
+DEVOLVERVALOR:
+MOV SI,PLACEHOLDERSI
+MOV DI,PLACEHOLDERDI
+mov cl,[si]
+mov ch,[di]
+
+MOV PRINTPLACEHOLDER,6
+PUSH DI
+MOV DI,PLACEHOLDERC
+MOV POINTERC,DI
+POP DI
+RET
+
+PULA_LINHA:                       
+pushf
+push ax
+push dx
+MOV AH,2  ; socorro, destruiram ax
+MOV DL,13          
+INT 21H
+MOV AH,2  ; socorro, destruiram ax
+MOV DL,10
+INT 21H
+pop dx          
+pop ax
+popf
+RET
+
+FIM: 
+CALL IMPRIMEDB
+POPF
+POP SI
+POP DI
+POP DX
+POP CX
+POP BX 
+POP AX
+RET
+
+
+IMPRIMEDB:
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+PUSH DI
+PUSH SI
+PUSHF
+MOV SI,OFFSET PALAVRA
+mov cl,[si]
+MOV DI,OFFSET INICIO_C
+IMPRIMEDB1:
+INC DI
+IMPRIMEDB3:
+mov ch,[di]
+cmp ch,'!'
+je IMPRIMEDB2
+cmp ch,cl
+
+mov ah,2
+mov dl,ch
+int 21h
+cmp ch,0
+je FIM123
+JMP IMPRIMEDB1
+
+
+IMPRIMEDB2:
+INC DI
+INC DI
+CALL PULA_LINHA
+jmp imprimedb3
+
+
+FIM123:
+POPF
+POP SI
+POP DI
+POP DX
+POP CX
+POP BX 
+POP AX
+ret
