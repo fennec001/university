@@ -1,4 +1,4 @@
-                                                                                   ; You may customize this and other start-up templates; 
+                                                                                                                         ; You may customize this and other start-up templates; 
 ; The location of this template is c:\emu8086\inc\0_com_template.txt
 include "emu8086.inc"
 org 100h
@@ -47,26 +47,26 @@ P28 DB 7,"FINAL","!"   ,0
 
 
 INICIO_A:
-DB "!CAMAxxxxxxCAOX0ROTAAOBALTEACETxxxxxxxxxx!"  
-DB "!AAxxxxxxxxOACARTSINIMDAMLEATLExxxxxxxxxx!" 
-DB "!MxMxxxxxxxFETPRONTOSOAORROEOELxxxxxxxxxx!"
-DB "!AxxAxxxxxxTOUTITDTSOIECOOOOMTExxxxxxxxxx!"
-DB "!xxxxxxxxxxDAEGANDADORSSNVBMORFxxxxxxxxxx!"
-DB "!xxxxxxxxxxEAMTNLGEVREEIMIIAGOOxxxxxxxxxx!"
-DB "!xxxxxxxxxxETEBEAORIEPOCAETIRCNxxxxxxxxxx!"
-DB "!xxxxxxxxxxREASUNSOFRLAOVTONAAExxxxxxxxxx!"
-DB "!xxxxxxxxxxELLVOLOEISAELDNFJFRVxxxxxxxxxx!"
-DB "!xxxxxxxxxxCUSAMTAHDRINOEAAEIDPxxxxxxxxxx!"
-DB "!xxxxxxxxxxEMRHDMETCOOIGTTRCAIOxxxxxxxxxx!"
-DB "!xxxxxxxxxxPCAIAOAMONALOMIMAJOLxxxxxxxxxx!"
-DB "!xxxxxxxxxxCAICDDSAERASEOSAOEGTxxxxxxxxxx!"
-DB "!xxxxxxxxxxIPCSSCERIRILUVICASRRxxxxxxxxxx!"
-DB "!xxxxxxxxxxOEAIIMEETOGOMFVIRTAOxxxxxxxxxx!"
-DB "!xxxxxxxxxxNLAUECESGPDEEUSAADMNxxxxxxxxxx!"
-DB "!xxxxxxxxxxIADDENISUAMSNTSNMNAAxxxxxxxxxx!"
-DB "!xxxxxxxxxxSETIRRTLARSQCCCEAERAxxxxxxxxxx!"
-DB "!xxxxxxxxxxTMTSANAETTCERAIACRAOxxxxxxxxxx!"	
-DB "!xxxxxxxxxxAARMASMRGOOTGIEAARTTxxxxxxxxxx!#",0
+DB "!CAOX0ROTAApOBALTEACET!"  
+DB "!OACARTSINIMDAMLEATLE!" 
+DB "!FETPRONTOSOAORROEOEL!"
+DB "!TOUTITDTSOIECOOOOMTE!"
+DB "!DAEGANDADORSSNVBMORF!"
+DB "!EAMTNLGEVREEIMIIAGOO!"
+DB "!ETEBEAORIEPOCAETIRCN!"
+DB "!REASUNSOFRLAOVTONAAE!"
+DB "!ELLVOLOEISAELDNFJFRV!"
+DB "!CUSAMTAHDRINOEAAEIDP!"
+DB "!EMRHDMETCOOIGTTRCAIO!"
+DB "!PCAIAOAMONALOMIMAJOL!"
+DB "!CAICDDSAERASEOSAOEGT!"
+DB "!IPCSSCERIRILUVICASRR!"
+DB "!OEAIIMEETOGOMFVIRTAO!"
+DB "!NLAUECESGPDEEUSAADMN!"
+DB "!IADDENISUAMSNTSNMNAA!"
+DB "!SETIRRTLARSQCCCEAERA!"
+DB "!TMTSANAETTCERAIACRAO!"	
+DB "!AARMASMRGOOTGIEAARTT!#",0
 
 
 
@@ -124,33 +124,31 @@ DB 0,"#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$!"
 
 
 INICIO_C:
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"    
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"       ;k-l  
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"  ;aqui
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!"
-DB "!----------------------------------------!#","#"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"    
+DB "!--------------------!"
+DB "!--------------------!"      
+DB "!--------------------!"
+DB "!--------------------!"  ;aqui
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!"
+DB "!--------------------!#","#"
 
 
 
 
 .code
-
-
 
 ; add your code here    
 MOV BX,0 ; INDICE = X = PX                              
@@ -212,6 +210,8 @@ MOV SI,PONTEIRO_PALAVRAS[BX]
 
 jmp $         
 
+
+
 fim12345:
 jmp $
 
@@ -253,6 +253,8 @@ JMP PROXIMALETRA
 
 PRIMEIRALETRA:
 CALL GUARDARVALOR
+CALL PALAVRAHORIZONTALMANGA
+CALL DEVOLVERVALOR
 CALL PALAVRAVERTICAL
 CALL DEVOLVERVALOR
 CALL palavrahorizontal
@@ -267,7 +269,6 @@ CALL PALAVRADIAGONAL4
 CALL DEVOLVERVALOR
 CALL PALAVRAVERTICALMANGA
 CALL DEVOLVERVALOR
-CALL PALAVRAHORIZONTALMANGA
 CALL DEVOLVERVALOR
 JMP PROXIMALETRA
 
@@ -294,8 +295,8 @@ JMP PALAVRAVERTICAL1
 PALAVRAHORIZONTAL1:
 
 INC SI
-ADD DI,42
-ADD POINTERC,42
+ADD DI,22
+ADD POINTERC,22
 MOV CH,[DI]
 MOV CL,[SI]
 CMP CH,CL
@@ -312,8 +313,8 @@ JMP PALAVRAHORIZONTAL1
 PALAVRADIAGONAL11:
 
 INC SI
-ADD DI,43
-ADD POINTERC,43
+ADD DI,23
+ADD POINTERC,23
 MOV CH,[DI]
 MOV CL,[SI]
 CMP CH,CL
@@ -330,8 +331,8 @@ JMP PALAVRADIAGONAL11
 PALAVRADIAGONAL22:
 
 INC SI
-ADD DI,41
-ADD POINTERC,41
+ADD DI,21
+ADD POINTERC,21
 MOV CH,[DI]
 MOV CL,[SI]
 CMP CH,CL
@@ -346,8 +347,8 @@ JMP PALAVRADIAGONAL22
 PALAVRADIAGONAL33:
 
 INC SI
-SUB DI,41
-SUB POINTERC,41
+SUB DI,21
+SUB POINTERC,21
 MOV CH,[DI]
 MOV CL,[SI]
 CMP CH,CL
@@ -362,8 +363,8 @@ JMP PALAVRADIAGONAL33
 PALAVRADIAGONAL44:
 
 INC SI
-SUB DI,43
-SUB POINTERC,43
+SUB DI,23
+SUB POINTERC,23
 MOV CH,[DI]
 MOV CL,[SI]
 CMP CH,CL
@@ -377,8 +378,8 @@ JMP PALAVRADIAGONAL44
 
 
 PALAVRAVERTICALMANGA1:
-SUB DI,42
-SUB POINTERC,42
+SUB DI,22
+SUB POINTERC,22
 INC SI 
 MOV CH,[DI]
 MOV CL,[SI]
@@ -390,6 +391,7 @@ PALAVRAVERTICALMANGA:
 SIPERCORRIDO:
 CALL ESCREVERC
 JMP PALAVRAVERTICALMANGA1
+
 
 
 PERCORRERSI:
@@ -990,6 +992,13 @@ MOV PLACEHOLDERC,DI
 POP DI
 RET
 
+
+
+
+
+
+
+
 DEVOLVERVALOR:
 MOV PRINTPLACEHOLDER1,0
 MOV SI,PLACEHOLDERSI
@@ -1068,6 +1077,10 @@ CALL PULA_LINHA
 MOV SI,offset mns1
 CALL PRINT_STRING
 CALL GET_STRING
+CALL PULA_LINHA
+CALL PULA_LINHA
+
+
 inc bx
 inc bx
 ret
@@ -1115,53 +1128,6 @@ RET
 
 
 
-divisao1:
-
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-PUSH DI
-PUSH SI
-PUSHF
-mov contador,18
-mov CX, 0
-mov AX, 18
-mov BX, 10
-
-DIVISAO:
-div BX ;comando para dividir
-push DX; empilha o resto da divisao
-inc CX; incrementa o cx que esta sendo utilizado como contador
-mov DX, 0; zera o DX para continuar a divisao
-cmp ax, 0
-jne divisao; logica para dar loop ate zerar a divisao
-
-IMPRESSAO:
-pop DX ;desempilha DX
-mov AH, 2 ;comandos para impressao
-add DL, 48 ; para imprimir o numero correto
-int 33 ; imprimindo
-dec CX
-cmp CX, 0 ; decrementando contador ate zerar
-jne IMPRESSAO
-
-
-POPF
-POP SI
-POP DI
-POP DX
-POP CX
-POP BX 
-POP AX
-POP DX
-RET
-
-ret
-
-
-
-
 PALAVRAHORIZONTALMANGA1:
 DEC POINTERC
 INC SI
@@ -1175,4 +1141,6 @@ RET
 
 PALAVRAHORIZONTALMANGA:
 CALL ESCREVERC
-JMP PALAVRAHORIZONTALMANGA1                                                    
+JMP PALAVRAHORIZONTALMANGA1
+
+                                                   
